@@ -1,0 +1,35 @@
+<!-- Подключение шаблона-фундамента для страницы -->
+{% extends 'recipe/base.html' %}
+{% block title %}
+Профиль пользователя
+{% endblock %}
+<!-- Отображение информации об авторизованном пользователе -->
+{% block content %}
+<div class="row" style="margin-top:20px; margin-left:20px">
+    <div class="col-8">
+        <h2>Профиль пользователя {{ activated_user.BookUser.login }}</h2>
+        <br>
+        <a class="btn btn-lg btn-secondary" href="{{ url_for('profile.profile_update_view') }}">Изменить профиль</a>
+        <br>
+        <br>
+        <table id="routes" class="table table-hover table-responsive-md table-bordered table-info table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ФИО пользователя</th>
+                    <th scope="col">Роль на сайте</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Фото</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ activated_user.BookUser.fio }}</td>
+                    <td>{{ activated_user.RoleUser.name_role }}</td>
+                    <td>{{ activated_user.BookUser.email }}</td>
+                    <td> <img src="{{activated_user.BookUser.photo}}" width="300" height="300"> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+<!-- Стартовая страница сайта -->
+<!-- Подключение шаблона-фундамента для страницы -->
+{% extends 'recipe/base.html' %}
+{% block title %}
+Избранные рецепты
+{% endblock %}
+{% block content %}
+<div class="col-12">
+    <h2>Список избранных рецептов пользователя "{{session['login']}}"</h2>
+    <br>
+    <table id="routes" class="table table-hover table-responsive-md table-bordered table-info table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Именования рецепта</th>
+                <th scope="col">Категория рецепта</th>
+                <th scope="col">Количество персон</th>
+                <th scope="col">Дата публикации</th>
+                <th scope="col">Фото</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recipe in all_recipe %}
+            <tr>
+                <td>{{ recipe.Recipe.recipe_name }}</td>
+                <td>{{ recipe.RecipeCategory.name_category }}</td>
+                <td>{{ recipe.RecipeCategory.number_of_servings }}</td>
+                <td>{{ recipe.Recipe.date_publication}}</td>
+                <td><img src="{{ recipe.Recipe.photo }}" width="400" height="400"></td>
+                <td>
+                    <form method="post" action="{{url_for('recipe.recipe_page_view')}}">
+                        {{ info_about_recipe.id_recipe(value=recipe.Recipe.id_recipe) }}
+                        {{ info_about_recipe.submit_info(class="btn btn-lg btn-block btn-light") }}
+                    </form>
+                    <br>
+                    <form method="post" action="{{url_for('profile.user_personal_favorite')}}">
+                        {{ del_form_favorite.id_recipe(value=recipe.Recipe.id_recipe) }}
+                        {{ del_form_favorite.submit_del_fav(class="btn btn-lg btn-block btn-danger") }}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+<!-- Скрипт для динамической таблицы: фильтрация, сортировка-->
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $("#routes").DataTable(
+            {
+                columns: [
+                    { orderable: true, searchable: true },
+                    { orderable: true, searchable: true },
+                    { orderable: true, searchable: true },
+                    { orderable: true, searchable: true },
+                    { orderable: true, searchable: true },
+                    { orderable: false, searchable: false }
+                ],
+                language: {
+                    "processing": "Подождите...",
+                    "search": "Поиск:",
+                    "lengthMenu": "Показать _MENU_ записей",
+                    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                    "infoPostFix": "",
+                    "loadingRecords": "Загрузка записей...",
+                    "zeroRecords": "Записи отсутствуют.",
+                    "emptyTable": "В таблице отсутствуют данные",
+                    "paginate": {
+                        "first": "Первая",
+                        "previous": "Предыдущая",
+                        "next": "Следующая",
+                        "last": "Последняя"
+                    },
+                    "aria": {
+                        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                        "sortDescending": ": активировать для сортировки столбца по убыванию"
+                    }
+                }
+            });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+<!-- Страница регистрации пользователя -->
+<!-- Подключение шаблона-фундамента для страницы -->
+{% extends 'recipe/base.html' %}
+
+{% block title %}
+Страница добавления нового рецепта
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <h1 class="h3 mb-3 font-weight-normal text-center">
+            Добавление нового рецепта
+        </h1>
+        <br>
+        <!-- Подключение полей для ввода информации о пользователе при регистрации -->
+        <form method="POST" class="form-register" style="color:white">
+            {{ add_recipe_form.hidden_tag() }}
+
+            {{ add_recipe_form.recipe_name.label() }}
+            {{ add_recipe_form.recipe_name(class="form-control") }}
+
+            {{ add_recipe_form.description.label() }}
+            {{ add_recipe_form.description(class="form-control") }}
+
+            {{ add_recipe_form.date_publication.label() }}
+            {{ add_recipe_form.date_publication(class="form-control") }}
+
+            {{ add_recipe_form.category.label() }}
+            {{ add_recipe_form.category(class="form-control") }}
+
+            {{ add_recipe_form.number_of_servings.label() }}
+            {{ add_recipe_form.number_of_servings(class="form-control") }}
+
+            {{ add_recipe_form.photo.label() }}
+            {{ add_recipe_form.photo(class="form-control") }}
+
+            <br>
+
+            {{ add_recipe_form.submit_add(class="btn btn-lg btn-block btn-dark") }}
+
+        </form>
+    </div>
+
+{% endblock %}

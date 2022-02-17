@@ -1,0 +1,111 @@
+<!-- Подключение шаблона-фундамента для страницы -->
+{% extends 'recipe/base.html' %}
+{% block title %}
+Персональные отзывы
+{% endblock %}
+<!-- Отображение информации об авторизованном пользователе -->
+{% block content %}
+<div class="row" style="margin-top:20px; margin-left:20px">
+    <div class="col-8">
+        <h2> Все отзывы пользователя "{{ session['login'] }}"</h2>
+        <br>
+        <table id="comment" class="table table-hover table-responsive-md table-bordered table-info table-striped">
+            <thead>
+               
+                <tr>
+                    <th scope="col"> Название рецепта </th>
+                    <th scope="col"> Оценка </th>
+                    <th scope="col"> Комментарий </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in all_comments %}
+                <tr>
+                    <td>{{comment.Recipe.recipe_name }}</td>
+                    <td>{{comment.Review.grade}}</td>
+                    <td>{{comment.Review.comment}}</td>
+                    <td>
+                        <form method="post" action="{{url_for('profile.user_personal_comments')}}">
+                            {{ del_form_recipe.id_recipe(value=comment.Recipe.id_recipe) }}
+                            {{ del_form_recipe.submit_del_coma(class="btn btn-lg btn-block btn-danger") }}
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+<!-- Скрипт для динамической таблицы: фильтрация, сортировка-->
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $("#comment").DataTable(
+            {
+                columns: [
+                    { orderable: true, searchable: true },
+                    { orderable: true, searchable: true },
+                    { orderable: true, searchable: true },
+                    { orderable: false, searchable: false },
+                ],
+                language: {
+                    "processing": "Подождите...",
+                    "search": "Поиск:",
+                    "lengthMenu": "Показать _MENU_ записей",
+                    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                    "infoPostFix": "",
+                    "loadingRecords": "Загрузка записей...",
+                    "zeroRecords": "Записи отсутствуют.",
+                    "emptyTable": "В таблице отсутствуют данные",
+                    "paginate": {
+                        "first": "Первая",
+                        "previous": "Предыдущая",
+                        "next": "Следующая",
+                        "last": "Последняя"
+                    },
+                    "aria": {
+                        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                        "sortDescending": ": активировать для сортировки столбца по убыванию"
+                    }
+                }
+            });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("comments").DataTable(
+            {
+                columns: [
+                    { orderable: true, searchable: true },
+                    { orderable: true, searchable: true }
+                ],
+                language: {
+                    "processing": "Подождите...",
+                    "search": "Поиск:",
+                    "lengthMenu": "Показать _MENU_ записей",
+                    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                    "infoPostFix": "",
+                    "loadingRecords": "Загрузка записей...",
+                    "zeroRecords": "Записи отсутствуют.",
+                    "emptyTable": "В таблице отсутствуют данные",
+                    "paginate": {
+                        "first": "Первая",
+                        "previous": "Предыдущая",
+                        "next": "Следующая",
+                        "last": "Последняя"
+                    },
+                    "aria": {
+                        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                        "sortDescending": ": активировать для сортировки столбца по убыванию"
+                    }
+                }
+            });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,86 @@
+<!-- Подключение шаблона-фундамента для страницы -->
+{% extends 'recipe/base.html' %}
+{% block title %}
+Информация о рецепте
+{% endblock %}
+<!-- Отображение информации об авторизованном пользователе -->
+{% block content %}
+<div class="row" style="margin-top:20px; margin-left:20px">
+    <div class="col-8">
+        <h2> Ингредиенты в базе</h2>
+        <table id="ingredient" class="table table-hover table-responsive-md table-bordered table-info table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Название ингредиента</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ingredient in all_ingredients %}
+                <tr>
+                    <td>{{ingredient.name_ingredient}}</td>
+                    <td>
+                        <form method="post" action="{{url_for('profile.view_profile_ingredient')}}">
+                            {{ del_form_ingredient.id_ingredient(value=ingredient.id_ingredient) }}
+                            {{ del_form_ingredient.submit_del_ingred(class="btn btn-lg btn-block btn-danger") }}
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="container" align="left">
+    <br>
+    <h1 class="h3 me-auto font-weight-normal text-left">
+        Добавить ингредиент
+    </h1>
+    <br>
+    <form method="POST" class="form-add" action="{{url_for('profile.view_profile_ingredient')}}" style="color:white">
+        {{ add_form_ingredient.hidden_tag() }}
+        {{ add_form_ingredient.ingredient.label() }}
+        {{ add_form_ingredient.ingredient(class="form-control") }}
+        <br>
+        {{ add_form_ingredient.submit_add_ingred(class="btn btn-lg btn-block btn-dark") }}
+    </form>
+    <br>
+</div>
+{% endblock %}
+
+<!-- Скрипт для динамической таблицы: фильтрация, сортировка-->
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $("#ingredient").DataTable(
+            {
+                columns: [
+                    { orderable: true, searchable: true },
+                    { orderable: false, searchable: false }
+                ],
+                language: {
+                    "processing": "Подождите...",
+                    "search": "Поиск:",
+                    "lengthMenu": "Показать _MENU_ записей",
+                    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                    "infoPostFix": "",
+                    "loadingRecords": "Загрузка записей...",
+                    "zeroRecords": "Записи отсутствуют.",
+                    "emptyTable": "В таблице отсутствуют данные",
+                    "paginate": {
+                        "first": "Первая",
+                        "previous": "Предыдущая",
+                        "next": "Следующая",
+                        "last": "Последняя"
+                    },
+                    "aria": {
+                        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                        "sortDescending": ": активировать для сортировки столбца по убыванию"
+                    }
+                }
+            });
+    });
+</script>
+{% endblock %}

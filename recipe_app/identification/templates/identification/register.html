@@ -1,0 +1,53 @@
+<!-- Страница регистрации пользователя -->
+<!-- Подключение шаблона-фундамента для страницы -->
+{% extends 'recipe/base.html' %}
+
+{% block title %}
+Страница регистрации
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <h1 class="h3 mb-3 font-weight-normal text-center">
+            Регистрация нового пользователя
+        </h1>
+        <br>
+        <!-- Подключение полей для ввода информации о пользователе при регистрации -->
+        <form method="POST" class="form-register" style="color:white">
+            {{ reg_form.hidden_tag() }}
+
+            {{ reg_form.fio.label() }}
+            {{ reg_form.fio(class="form-control", placeholder="Фамилия Имя Отчество") }}
+
+            {{ reg_form.email.label() }}
+            {{ reg_form.email(class="form-control", placeholder="Электронная почта") }}
+
+            {{ reg_form.role.label() }}
+            {{ reg_form.role(class="form-control", placeholder="Роль") }}
+
+            {{ reg_form.photo.label() }}
+            {{ reg_form.photo(class="form-control") }}
+
+            {{ reg_form.login.label() }}
+            {{ reg_form.login(class="form-control", placeholder="Логин") }}
+
+            {{ reg_form.password1.label() }}
+            {{ reg_form.password1(class="form-control", placeholder="Пароль") }}
+
+            {{ reg_form.password2.label() }}
+            {{ reg_form.password2(class="form-control", placeholder="Подтвердить пароль") }}
+
+            <br>
+
+            <div class="checkbox mb-3">
+               <h6>Уже есть аккаунт?</h6>
+               <a class="btn btn-sm btn-primary" href="{{ url_for('identification.login_page') }}">Выполнить вход</a>
+            </div>
+
+            {{ reg_form.submit(class="btn btn-lg btn-block btn-dark") }}
+
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+<!-- Страниц авторизации пользователя -->
+<!-- Подключение шаблона-фундамента для страницы -->
+{% extends 'recipe/base.html' %}
+
+{% block title %}
+Страница входа
+{% endblock %}
+
+{% block content %}
+   <div class="container">
+        <form method="POST" class="form-signin" style="color:white">
+            {{ log_form.hidden_tag() }}
+            <h1 class="h3 mb-3 font-weight-normal">
+                Выполните вход
+            </h1>
+            <!-- Подключение полей для ввода информации о пользователе при аворизации -->
+            <br>
+            {{ log_form.login.label() }}
+            {{ log_form.login(class="form-control", placeholder="Логин") }}
+
+            {{ log_form.password.label() }}
+            {{ log_form.password(class="form-control", placeholder="Пароль") }}
+
+            <br>
+
+            <!-- Кнопка переключения на страницу регистрации -->
+            <div class="checkbox mb-3">
+               <h6>У вас ещё нет аккаунта?</h6>
+               <a class="btn btn-sm btn-primary" href="{{ url_for('identification.register_page') }}">Регистрация</a>
+            </div>
+
+            <!-- Кнопка для обработки ввёденной информации при авторизации -->
+            {{ log_form.submit(class="btn btn-lg btn-block btn-dark") }}
+
+        </form>
+    </div>
+{% endblock %}

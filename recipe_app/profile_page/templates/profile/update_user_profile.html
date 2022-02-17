@@ -1,0 +1,59 @@
+<!-- Страница профиля пользователя/Стартовая страница-->
+<!-- Подключение шаблона-фундамента для страницы -->
+{% extends 'recipe/base.html' %}
+{% block title %}
+Изменение профиля
+{% endblock %}
+<!-- Отображение информации об авторизованном пользователе -->
+{% block content %}
+<form method="POST" class="form-addding">
+    {{ update_profile_form.hidden_tag() }}
+    <div class="row" style="margin-top:20px; margin-left:20px">   
+        <div class="col-8">
+            <h2>Текущая информация</h2>
+            <br>
+            {{ update_profile_form.submit_update(class="btn btn-lg btn-block btn-warning") }}
+            <br>
+            <br>
+            <table id="routes" class="table table-hover table-responsive-md table-bordered table-info table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ФИО пользователя</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Фото</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ activated_user.fio }}</td>
+                        <td>{{ activated_user.email }}</td>
+                        <td> <img src="{{activated_user.photo}}" width="300" height="300"> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px; margin-left:20px">
+        <div class="col-8">
+            <h2>Новая информация</h2>
+            <br>
+            <table id="routes" class="table table-hover table-responsive-md table-bordered table-info table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">{{ update_profile_form.fio.label() }}</th>
+                        <th scope="col">{{ update_profile_form.email.label() }}</th>
+                        <th scope="col">{{ update_profile_form.photo.label() }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ update_profile_form.fio(class="form-control") }}</td>
+                        <td>{{ update_profile_form.email(class="form-control") }}</td>
+                        <td>{{ update_profile_form.photo(class="form-control") }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    {% endblock %}
